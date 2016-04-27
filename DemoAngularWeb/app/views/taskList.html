@@ -1,0 +1,175 @@
+﻿
+<style>
+    .red {
+        background-color: red;
+    }
+
+    .disnone {
+        display: none;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    a {
+        color: #E1704B;
+        transition: color 0.5s ease;
+    }
+
+        a:hover {
+            cursor: pointer;
+        }
+
+    h1 {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 2.5em;
+        font-weight: 500;
+    }
+
+    div.comment label.checkbox {
+        border: 1px solid #DDD;
+        border-left-width: 3px;
+        padding: 9px 9px 9px 29px;
+        background-color: #FFF;
+        margin-top: 10px;
+        position: relative;
+        font-weight: normal;
+    }
+
+    .header-color-blue {
+        background: #307ECC;
+        border: 1px solid #307ECC;
+        box-sizing: content-box;
+        position: relative;
+        min-height: 38px;
+        padding: 0 12px 0;
+        color: #fff;
+    }
+
+    .filter {
+        margin-top: 6px;
+    }
+
+    .header-color-blue + .widget-body {
+        border-color: #307ECC;
+        margin-top: -10px;
+        padding: 20px 10px;
+    }
+
+    .widget-body {
+        border: 1px solid #CCC;
+        border-top: 0;
+        background-color: #FFF;
+    }
+
+    .strike {
+        text-decoration: line-through;
+    }
+
+    .header-elements-margin {
+        margin: 5px;
+    }
+
+    .add-comment {
+        margin-top: 10px;
+    }
+
+    .nav-button-margin {
+        margin: 10px 20px 0 0;
+    }
+
+    .navbar {
+        border-radius: 0;
+        background: #438EB9;
+        color: #fff;
+    }
+
+        .navbar .navbar-brand {
+            color: #FFF;
+            font-size: 24px;
+            text-shadow: none;
+        }
+</style>
+<div class="row">
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary" ng-click="AddNewTask()">Add New</button>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Comments</th>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Label</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="task in tasks" class="{{task.rowClass}}">
+                    <td>
+                        <a ng-click="getComments(task.taskID)"><i class="fa fa-comment" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        {{ task.taskID }}
+                    </td>
+                    <td>
+                        {{ task.title }}
+                    </td>
+                    <td>
+                        {{ task.description }}
+                    </td>
+                    <td>
+                        {{ task.dueDate | date:medium }}
+                    </td>
+                    <td>
+                        {{ task.label }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-2">
+        &nbsp;
+    </div>
+</div>
+
+<div class="disnone" id="commentList">
+    <div class="widget-box" id="recent-box">
+        <div class="widget-header header-color-blue">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 class="bigger lighter">
+                        Comments
+                    </h4>
+                </div>
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3">
+                    <button ng-click="addNewClicked=!addNewClicked;" class="btn btn-sm btn-danger header-elements-margin pull-right"><i class="glyphicon  glyphicon-plus"></i>&nbsp;Add New Comments</button>
+                </div>
+            </div>
+        </div>
+        <div class="widget-body ">
+            <form ng-init="addNewClicked=false; " ng-if="addNewClicked" id="newCommentForm" class="add-comment">
+                <div class="form-actions">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="comment" ng-model="comments.comment" placeholder="Add New Comment" ng-focus="addNewClicked">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit" ng-click="addComment(commentInput)"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="comment">
+                <label class="checkbox" ng-repeat="comment in commentList">
+                    <span>{{comment.comment}}</span>
+                    <a ng-click="deleteComment(comment.id)" class="pull-right"><i class="glyphicon glyphicon-trash"></i></a>
+                </label>
+                <label data-ng-show="!commentList.length">No Comments</label>
+            </div>
+        </div>
+    </div>
+</div>
